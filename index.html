@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,6 +36,7 @@
           <th>Data</th>
           <th>Secretaria</th>
           <th>Pregoeiro</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody id="licitacoes">
@@ -58,16 +58,24 @@
       const dados = JSON.parse(localStorage.getItem("licitacoes") || "[]");
       const tbody = document.getElementById("licitacoes");
       tbody.innerHTML = "";
+
+      const hoje = new Date().toISOString().split("T")[0];
+
       dados.forEach(l => {
+        let statusFinal = l.status;
+        if (l.data < hoje) {
+          statusFinal = "Em Andamento";
+        }
+
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${l.numero}</td>
           <td>${l.modalidade}</td>
           <td>${l.objeto}</td>
-          <td class="${l.status.replaceAll(' ', '')}">${l.status}</td>
           <td>${l.data}</td>
           <td>${l.secretaria}</td>
           <td>${l.pregoeiro}</td>
+          <td class="${statusFinal.replaceAll(' ', '')}">${statusFinal}</td>
         `;
         tbody.appendChild(tr);
       });
