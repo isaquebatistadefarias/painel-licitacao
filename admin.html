@@ -1,20 +1,23 @@
+# Criar novo admin.html compatível com o index.html fornecido
 
+admin_html_novo = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Administração - Painel de Licitações</title>
   <style>
-    body { font-family: Arial; max-width: 700px; margin: 20px auto; }
-    label, input, select, textarea { display: block; width: 100%; margin-bottom: 10px; }
-    button { padding: 10px; }
-    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-    td, th { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    body { font-family: Arial; max-width: 800px; margin: 20px auto; padding: 10px; background: #f9f9f9; }
+    label, input, select, textarea { display: block; width: 100%; margin-bottom: 10px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; margin-top: 10px; }
+    table { width: 100%; margin-top: 30px; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
     th { background: #003366; color: white; }
+    h2 { text-align: center; color: #003366; }
   </style>
 </head>
 <body>
-  <h2>Inserir Licitação</h2>
+  <h2>Cadastro de Licitações</h2>
 
   <form onsubmit="addLicitacao(); return false;">
     <label>Nº Processo:</label>
@@ -26,30 +29,30 @@
     <label>Objeto:</label>
     <textarea id="objeto" required></textarea>
 
-    <label>Status:</label>
-    <select id="status">
-      <option>Publicado</option>
-      <option>Em Andamento</option>
-      <option>Suspenso</option>
-    </select>
-
     <label>Data de Abertura:</label>
-    <input type="date" id="abertura" required />
+    <input type="date" id="data" required />
 
     <label>Secretaria:</label>
     <input type="text" id="secretaria" required />
 
-    <label>Pregoeiro Responsável:</label>
+    <label>Pregoeiro:</label>
     <input type="text" id="pregoeiro" required />
 
-    <button type="submit">Adicionar Licitação</button>
+    <label>Status:</label>
+    <select id="status" required>
+      <option>Publicado</option>
+      <option>Suspenso</option>
+      <option>Outro</option>
+    </select>
+
+    <button type="submit">Salvar Licitação</button>
   </form>
 
   <h3>Licitações Cadastradas</h3>
   <table>
     <thead>
       <tr>
-        <th>Processo</th><th>Modalidade</th><th>Status</th><th>Pregoeiro</th><th>Excluir</th>
+        <th>Processo</th><th>Modalidade</th><th>Data</th><th>Status</th><th>Ações</th>
       </tr>
     </thead>
     <tbody id="lista"></tbody>
@@ -70,10 +73,10 @@
         numero: numero.value,
         modalidade: modalidade.value,
         objeto: objeto.value,
-        status: status.value,
-        abertura: abertura.value,
+        data: data.value,
         secretaria: secretaria.value,
-        pregoeiro: pregoeiro.value
+        pregoeiro: pregoeiro.value,
+        status: status.value
       };
       const lista = getLicitacoes();
       lista.push(nova);
@@ -90,9 +93,9 @@
           <tr>
             <td>${l.numero}</td>
             <td>${l.modalidade}</td>
+            <td>${l.data}</td>
             <td>${l.status}</td>
-            <td>${l.pregoeiro}</td>
-            <td><button onclick="remover(${i})">🗑️</button></td>
+            <td><button onclick="remover(${i})">Excluir</button></td>
           </tr>
         `;
       });
@@ -108,3 +111,11 @@
   </script>
 </body>
 </html>
+"""
+
+# Salvar arquivo
+novo_admin_path = "/mnt/data/admin_reestruturado.html"
+with open(novo_admin_path, "w", encoding="utf-8") as f:
+    f.write(admin_html_novo)
+
+novo_admin_path
